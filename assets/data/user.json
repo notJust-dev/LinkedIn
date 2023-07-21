@@ -1,0 +1,22 @@
+{
+  "id": "u2",
+  "name": "Vadim Savin",
+  "position": "Founder at notJust.dev",
+  "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png",
+  "backImage": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/images/2.jpg",
+  "about": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry s standard dummy text ever since the 1500s, when an unknown printer took a galley",
+  "experience": [
+    {
+      "id": "e1",
+      "title": "Founder",
+      "companyName": "notJust.dev",
+      "companyImage": "https://media.licdn.com/dms/image/C4E0BAQGmtxs_h3L1fg/company-logo_100_100/0/1646644437762?e=1697673600&v=beta&t=krLyDvQnoEVEBn1MlGrFEM8cpt5Y24XvXJV7RjXyGsc"
+    },
+    {
+      "id": "e2",
+      "title": "Co-Founder & CTO",
+      "companyName": "Fitenium",
+      "companyImage": "https://media.licdn.com/dms/image/C4D0BAQHg4ra02yFrcw/company-logo_200_200/0/1573813337379?e=1697673600&v=beta&t=3wUnjLtfkYpIMJg4ZP2qq7Vj0rvU7aUOVrkffLabTuQ"
+    }
+  ]
+}
