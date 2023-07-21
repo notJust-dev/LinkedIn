@@ -1,0 +1,26 @@
+[
+  {
+    "id": "u2",
+    "name": "Vadim Savin",
+    "position": "Founder at notJust.dev",
+    "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.png"
+  },
+  {
+    "id": "u2",
+    "name": "StepZen, an IBM Company",
+    "position": "GraphQL server with unique architecture",
+    "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/stepzen.jpeg"
+  },
+  {
+    "id": "u1",
+    "name": "Jeff Bezon",
+    "position": "Intern @Amazon",
+    "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/jeff.jpeg"
+  },
+  {
+    "id": "u3",
+    "name": "Peter Johnson",
+    "position": "CTO at Facebook",
+    "image": "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/zuck.jpeg"
+  }
+]
