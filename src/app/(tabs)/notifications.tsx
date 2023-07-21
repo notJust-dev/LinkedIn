@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 
-export default function TabTwoScreen() {
+export default function NotificationsScreen() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Tab Two</Text>
+      <Text style={styles.title}>Notifications Screen</Text>
     </View>
   );
 }
