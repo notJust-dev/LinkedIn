@@ -29,6 +29,8 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderBottomWidth: 0.5,
     borderColor: 'lightgray',
+
+    backgroundColor: 'white',
   },
   image: {
     width: 50,
