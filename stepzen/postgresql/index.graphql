@@ -1,0 +1,492 @@
+type Comment {
+  comment: String
+  id: ID!
+  post: Post @materializer(query: "postUsingComment_postid_fkey")
+  postid: ID
+  profile: Profile @materializer(query: "profileUsingComment_userid_fkey")
+  userid: ID
+}
+
+type Experience {
+  companyimage: String
+  companyname: String
+  id: ID!
+  profile: Profile @materializer(query: "profileUsingExperience_userid_fkey")
+  title: String
+  userid: ID
+}
+
+type Post {
+  comment: [Comment] @materializer(query: "commentUsingComment_postid_fkey")
+  content: String
+  id: ID!
+  image: String
+  profile: Profile @materializer(query: "profileUsingPost_userid_fkey")
+  reaction: [Reaction] @materializer(query: "reactionUsingReaction_postid_fkey")
+  userid: ID
+}
+
+type Profile {
+  about: String
+  authid: String
+  backimage: String
+  comment: [Comment] @materializer(query: "commentUsingComment_userid_fkey")
+  experience: [Experience]
+    @materializer(query: "experienceUsingExperience_userid_fkey")
+  id: ID!
+  image: String
+  name: String
+  position: String
+  post: [Post] @materializer(query: "postUsingPost_userid_fkey")
+  reaction: [Reaction] @materializer(query: "reactionUsingReaction_userid_fkey")
+}
+
+type Reaction {
+  id: ID!
+  post: Post @materializer(query: "postUsingReaction_postid_fkey")
+  postid: ID
+  profile: Profile @materializer(query: "profileUsingReaction_userid_fkey")
+  type: String
+  userid: ID
+}
+
+"""
+The following queries are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
+type Query {
+  " Queries for type 'Comment' "
+  comment(id: ID!): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      configuration: "postgresql_config"
+    )
+  commentList: [Comment]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      configuration: "postgresql_config"
+    )
+  commentPaginatedList(first: Int, after: Int): [Comment]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "comment", "id", "postid", "userid" FROM "comment" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  commentUsingComment_postid_fkey(id: ID!): [Comment]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "comment", "id", "postid", "userid" FROM "comment" WHERE "postid" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  commentUsingComment_userid_fkey(id: ID!): [Comment]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "comment", "id", "postid", "userid" FROM "comment" WHERE "userid" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  " Queries for type 'Experience' "
+  experience(id: ID!): Experience
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "experience"
+      configuration: "postgresql_config"
+    )
+  experienceList: [Experience]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "experience"
+      configuration: "postgresql_config"
+    )
+  experiencePaginatedList(first: Int, after: Int): [Experience]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "companyimage", "companyname", "id", "title", "userid" FROM "experience" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  experienceUsingExperience_userid_fkey(id: ID!): [Experience]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "companyimage", "companyname", "id", "title", "userid" FROM "experience" WHERE "userid" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  " Queries for type 'Post' "
+  post(id: ID!): Post
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "post"
+      configuration: "postgresql_config"
+    )
+  postList: [Post]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "post"
+      configuration: "postgresql_config"
+    )
+  postPaginatedList(first: Int, after: Int): [Post]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "content", "id", "image", "userid" FROM "post" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  postUsingComment_postid_fkey(postid: ID!): Post
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "content", "id", "image", "userid" FROM "post" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  postUsingPost_userid_fkey(id: ID!): [Post]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "content", "id", "image", "userid" FROM "post" WHERE "userid" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  postUsingReaction_postid_fkey(postid: ID!): Post
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "content", "id", "image", "userid" FROM "post" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  " Queries for type 'Profile' "
+  profile(id: ID!): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "profile"
+      configuration: "postgresql_config"
+    )
+  profileList: [Profile]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "profile"
+      configuration: "postgresql_config"
+    )
+  profilePaginatedList(first: Int, after: Int): [Profile]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "about", "authid", "backimage", "id", "image", "name", "position" FROM "profile" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  profileUsingComment_userid_fkey(userid: ID!): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "about", "authid", "backimage", "id", "image", "name", "position" FROM "profile" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  profileUsingExperience_userid_fkey(userid: ID!): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "about", "authid", "backimage", "id", "image", "name", "position" FROM "profile" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  profileUsingPost_userid_fkey(userid: ID!): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "about", "authid", "backimage", "id", "image", "name", "position" FROM "profile" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  profileUsingReaction_userid_fkey(userid: ID!): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "about", "authid", "backimage", "id", "image", "name", "position" FROM "profile" WHERE "id" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  profileUsingprofile_authid_key(authid: String!): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "about", "authid", "backimage", "id", "image", "name", "position" FROM "profile" WHERE "authid" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  " Queries for type 'Reaction' "
+  reaction(id: ID!): Reaction
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reaction"
+      configuration: "postgresql_config"
+    )
+  reactionList: [Reaction]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reaction"
+      configuration: "postgresql_config"
+    )
+  reactionPaginatedList(first: Int, after: Int): [Reaction]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "id", "postid", "type", "userid" FROM "reaction" ORDER BY "id" LIMIT $1 OFFSET $2
+      """
+      configuration: "postgresql_config"
+    )
+  reactionUsingReaction_postid_fkey(id: ID!): [Reaction]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "id", "postid", "type", "userid" FROM "reaction" WHERE "postid" = $1
+      """
+      configuration: "postgresql_config"
+    )
+  reactionUsingReaction_userid_fkey(id: ID!): [Reaction]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "id", "postid", "type", "userid" FROM "reaction" WHERE "userid" = $1
+      """
+      configuration: "postgresql_config"
+    )
+}
+
+"""
+The following mutations are just a set of examples of how to access your schema.
+Feel free to modify them or aggregate more.
+"""
+type Mutation {
+  " Mutations for type 'Comment' "
+  deleteComment(id: ID!): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertComment(comment: String, userid: ID, postid: ID): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "comment"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateComment(id: ID!, comment: String, postid: ID, userid: ID): Comment
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "comment" SET
+        "comment" = COALESCE($2, "comment"),
+        "postid" = COALESCE($3, "postid"),
+        "userid" = COALESCE($4, "userid")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+  " Mutations for type 'Experience' "
+  deleteExperience(id: ID!): Experience
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "experience"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertExperience(
+    companyname: String
+    companyimage: String
+    userid: ID
+    title: String
+  ): Experience
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "experience"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateExperience(
+    id: ID!
+    companyimage: String
+    companyname: String
+    title: String
+    userid: ID
+  ): Experience
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "experience" SET
+        "companyimage" = COALESCE($2, "companyimage"),
+        "companyname" = COALESCE($3, "companyname"),
+        "title" = COALESCE($4, "title"),
+        "userid" = COALESCE($5, "userid")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+  " Mutations for type 'Post' "
+  deletePost(id: ID!): Post
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "post"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertPost(userid: ID, image: String, content: String): Post
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "post"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updatePost(id: ID!, content: String, image: String, userid: ID): Post
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "post" SET
+        "content" = COALESCE($2, "content"),
+        "image" = COALESCE($3, "image"),
+        "userid" = COALESCE($4, "userid")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+  " Mutations for type 'Profile' "
+  deleteProfile(id: ID!): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "profile"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertProfile(
+    authid: String
+    name: String
+    image: String
+    backimage: String
+    position: String
+    about: String
+  ): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "profile"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateProfile(
+    id: ID!
+    about: String
+    authid: String
+    backimage: String
+    image: String
+    name: String
+    position: String
+  ): Profile
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "profile" SET
+        "about" = COALESCE($2, "about"),
+        "authid" = COALESCE($3, "authid"),
+        "backimage" = COALESCE($4, "backimage"),
+        "image" = COALESCE($5, "image"),
+        "name" = COALESCE($6, "name"),
+        "position" = COALESCE($7, "position")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+  " Mutations for type 'Reaction' "
+  deleteReaction(id: ID!): Reaction
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reaction"
+      dml: DELETE
+      configuration: "postgresql_config"
+    )
+  insertReaction(type: String, userid: ID, postid: ID): Reaction
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      table: "reaction"
+      dml: INSERT
+      configuration: "postgresql_config"
+    )
+  updateReaction(id: ID!, postid: ID, type: String, userid: ID): Reaction
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      UPDATE "reaction" SET
+        "postid" = COALESCE($2, "postid"),
+        "type" = COALESCE($3, "type"),
+        "userid" = COALESCE($4, "userid")
+      WHERE
+        "id" = $1
+      RETURNING *
+      """
+      configuration: "postgresql_config"
+    )
+}
