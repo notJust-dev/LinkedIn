@@ -1,6 +1,5 @@
 import { ActivityIndicator, FlatList, Text } from 'react-native';
 import PostListItem from '@/components/PostListItem';
-// import posts from '../../../assets/data/posts.json';
 import { gql, useQuery } from '@apollo/client';
 
 const postList = gql`
@@ -30,8 +29,6 @@ export default function HomeFeedScreen() {
     console.log(error);
     return <Text>Something went wrong!</Text>;
   }
-
-  console.log(data);
 
   return (
     <FlatList
