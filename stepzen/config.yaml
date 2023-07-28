@@ -1,0 +1,4 @@
+configurationset:
+  - configuration:
+      name: postgresql_config
+      uri: postgresql://trumpet.db.elephantsql.com/jcyoosez?user=jcyoosez&password=R9hLV-95KpDC8tM9b_hqRfhP_TFWXjn_
