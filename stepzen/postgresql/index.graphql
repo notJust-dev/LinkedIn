@@ -196,6 +196,15 @@ type Query {
       table: "profile"
       configuration: "postgresql_config"
     )
+  profileSearch(term: String): [Profile]
+    @dbquery(
+      type: "postgresql"
+      schema: "public"
+      query: """
+      SELECT "about", "authid", "backimage", "id", "image", "name", "position" FROM "profile" WHERE name ILIKE $1 OR position ILIKE $1
+      """
+      configuration: "postgresql_config"
+    )
   profilePaginatedList(first: Int, after: Int): [Profile]
     @dbquery(
       type: "postgresql"
