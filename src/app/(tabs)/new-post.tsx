@@ -5,6 +5,7 @@ import { useLayoutEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import { FontAwesome } from '@expo/vector-icons';
 import { gql, useMutation } from '@apollo/client';
+import { useUserContext } from '@/context/UserContext';
 
 const insertPost = gql`
   mutation MyMutation($userid: ID, $image: String, $content: String!) {
@@ -20,6 +21,7 @@ const insertPost = gql`
 export default function NewPostScreen() {
   const [content, setContent] = useState('');
   const [image, setImage] = useState<string | null>(null);
+  const { dbUser } = useUserContext();
 
   const [handleMutation, { loading, error, data }] = useMutation(insertPost);
 
@@ -27,12 +29,10 @@ export default function NewPostScreen() {
   const router = useRouter();
 
   const onPost = async () => {
-    console.warn(`Posting: ${content}`);
-
     try {
       await handleMutation({
         variables: {
-          userid: 2,
+          userid: dbUser.id,
           content,
         },
       });
