@@ -37,9 +37,12 @@ const postPaginatedList = gql`
 
 export default function HomeFeedScreen() {
   const [hasMore, setHasMore] = useState(true);
-  const { loading, error, data, fetchMore } = useQuery(postPaginatedList, {
-    variables: { first: 5 },
-  });
+  const { loading, error, data, fetchMore, refetch } = useQuery(
+    postPaginatedList,
+    {
+      variables: { first: 5 },
+    }
+  );
 
   const loadMore = async () => {
     if (!hasMore) {
@@ -70,6 +73,8 @@ export default function HomeFeedScreen() {
       showsVerticalScrollIndicator={false}
       contentContainerStyle={{ gap: 10 }}
       onEndReached={loadMore}
+      refreshing={loading}
+      onRefresh={refetch}
     />
   );
 }

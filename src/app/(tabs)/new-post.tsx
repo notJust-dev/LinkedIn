@@ -23,7 +23,9 @@ export default function NewPostScreen() {
   const [image, setImage] = useState<string | null>(null);
   const { dbUser } = useUserContext();
 
-  const [handleMutation, { loading, error, data }] = useMutation(insertPost);
+  const [handleMutation, { loading, error, data }] = useMutation(insertPost, {
+    refetchQueries: ['PostPaginatedListQuery'],
+  });
 
   const navigation = useNavigation();
   const router = useRouter();
